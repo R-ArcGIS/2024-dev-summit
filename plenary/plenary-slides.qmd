@@ -1,0 +1,240 @@
+---
+title: "plenary"
+format: revealjs
+---
+
+```{r}
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, message = TRUE)
+```
+
+# 
+
+is this the best thing to illustrate the existing R-ArcGIS Bridge story???
+
+![](images/paste-7.png)
+
+::: notes
+We first announced the R-ArcGIS Bridge at the 2015 User Conference, which has been supporting users of both ArcGIS Pro and R for the last 9 years. 
+:::
+
+# 
+
+what illustrates this point??
+
+![](images/paste-8.png)
+
+::: notes
+However, the extensive ArcGIS ecosystem hasn't been easily accessible to the broader R community until now.
+:::
+
+# 
+
+![](images/paste-9.png)
+
+::: notes
+Today, we're thrilled to announce the {arcgis} metapackage, now available on CRAN.​
+:::
+
+# 
+
+![](images/paste-10.png)
+
+-   animation of all the products you can get data from?
+    -   living atlas, AGOL, HUB, Platform, Enterprise, Open Data, Survey
+
+::: notes
+It opens up the entire ArcGIS data ecosystem directly from R creating a brand new way for R users to collaborate with other stakeholders in their organization.​
+:::
+
+# 
+
+```{r, eval = TRUE, echo = TRUE, message = TRUE}
+library(arcgis)
+```
+
+::: notes
+{arcgis} is a constellation of R packages focused solely on interacting with Location Services.​
+:::
+
+# 
+
+![](images/paste-1.png)
+
+::: notes
+We can now take any feature service,​
+:::
+
+# 
+
+```{r}
+# Store Feature Service URL
+furl <- "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Major_Cities_/FeatureServer/0"
+
+# Create a FeatureLayer object
+cities_fl <- arc_open(furl)
+cities_fl
+```
+
+::: notes
+and connect directly to it from R
+:::
+
+# 
+
+```{r, message = FALSE}
+# Read from the FeatureLayer
+pops <- arc_select(
+  cities_fl,
+  fields = c("state_abbr", "name", "population", "sqmi")
+)
+
+# preview it
+pops
+```
+
+::: notes
+Getting that feature service as an R object is just a single function
+:::
+
+# 
+
+```{r}
+# authorize to portal w/ named user
+token <- auth_user()
+set_arc_token(token)
+token
+```
+
+::: notes
+Not only can you read data using it, but you can connect to your organization’s portal​
+:::
+
+# 
+
+```{r, eval = FALSE}
+# publish item to private portal
+published <- publish_layer(pops, "USA City Population")
+str(published)
+```
+
+```         
+List of 1
+ $ services:'data.frame':       1 obs. of  6 variables:
+  ..$ type             : chr "Feature Service"
+  ..$ serviceurl       : chr "https://services1.arcgis.com/hLJbHVT9ZrDIzK0I/arcgis/rest/services/USA City Population/FeatureServer"
+  ..$ size             : int 742465
+  ..$ jobId            : chr "45140c9d-de91-41ff-a24f-ee4dd3107d51"
+  ..$ serviceItemId    : chr "e1216eff1422459aa692358f2cf2f5ba"
+  ..$ encodedServiceURL: chr "https://services1.arcgis.com/hLJbHVT9ZrDIzK0I/arcgis/rest/services/USA%20City%20Population/FeatureServer"
+```
+
+::: notes
+And manage or publish feature services in pure R code.​
+:::
+
+```{r, include = FALSE}
+published <- list(services = list(encodedServiceURL = "https://services1.arcgis.com/hLJbHVT9ZrDIzK0I/arcgis/rest/services/USA%20City%20Population/FeatureServer"))
+```
+
+# 
+
+```{r}
+arc_open(published$services$encodedServiceURL)
+```
+
+::: notes
+{arcgislayers} will help you integrate R into your organizations data pipeline.  ​
+:::
+
+# 
+
+![](images/paste-2.png)
+
+::: notes
+These packages can be built upon just like the rOpenSci package, {FedData} which provides standardized access to government GIS data.  ​
+
+<https://docs.ropensci.org/FedData/>
+:::
+
+# 
+
+![](images/paste-3.png)
+
+::: notes
+FedData adopted {arcgislayers} to improve ease and speed of access to EPA and USGS data sources. ​
+
+With these packages, you can build your own solutions, or, better yet,
+
+<https://github.com/search?q=repo%3Aropensci%2FFedData%20arcgislayers&type=code>
+:::
+
+# 
+
+![](images/paste-4.png)
+
+::: notes
+collaborate and help us build new features and packages​
+
+<https://github.com/R-ArcGIS/arcgislayers/issues/108>
+:::
+
+# 
+
+![](images/paste-5.png)
+
+::: notes
+underlying all of this, is arcgisutils
+
+<https://r.esri.com/arcgisutils/index.html>
+:::
+
+# 
+
+{ authorizaiton flow}
+
+::: notes
+It simplifies authorization with location services
+:::
+
+# 
+
+```{r, eval = FALSE}
+pnt <- sf::st_point(c(3, 0.14, 0.00159))
+as_esri_geometry(pnt)
+```
+
+```{r echo = FALSE}
+pnt <- sf::st_point(c(3, 0.14, 0.00159))
+jsn <- as_esri_geometry(pnt)
+jsonify::pretty_json(jsn)
+```
+
+::: notes
+and it provides fast Esri JSON parsing and serialization, among others​
+:::
+
+# What's next?
+
+![](images/paste-6.png)
+
+::: notes
+ It’s the groundwork that all of our future packages will be based on. What's going to be next? ​
+:::
+
+# Call to action
+
+what is the visual here?
+
+::: notes
+-   ​For the GIS analysts with colleagues who will never leave R, this is for them.
+
+-   And for you data scientists, we want to help you create in-house packages that simplify your day to day lives.
+
+-   And for the package developers in the house, we would love to have you as a contributor.​
+:::
+
+# Come meet us
+
+-   we have a booth
+
+-   two sessions on Thurs

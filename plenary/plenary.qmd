@@ -1,0 +1,52 @@
+
+We first announced the R-ArcGIS Bridge back in ____ . It has been nearly 9 years since then. Since that first release, the R community continues to be a crucial component in the spatial data science ecosystem. 
+
+- The r-spatial community continues to innovate and stay on the leading edge of spatial data science
+    - from baysian spatial models in geostan 
+    - spatial cross validation with waywiser 
+    - traditional spatial econometrics with spdep
+    - or being a test bed for newer data formats such as geoarrow 
+
+As a long time member of the R-consortium I want to emphasize our commitment to the R community. Today we are announcing a new suite of R packages designed to bring the ArcGIS ecosystem to where you, the R community, are. The {arcgis} metapackage is the first step in connecting you to ArcGIS Location systems to your IDE. 
+
+there is a massive amount of publicly available data from authoritative sources such as the Living Atlas, ArcGIS Online, the numerous ArcGIS Hub sites that support public data hubs. {arcgis} lets you read these services directly from R. 
+
+For organizations and users of ArcGIS Online, Enterprise, or Hub, you now have the ability to read, write, and modify datasets directly from R—opening up an entirely new way for R users to collaborate with other stakeholders in their organization.
+
+
+## arcgislayers 
+
+Maybe visual demo here while we talk through it. For exmaple, illustrate publishing to AGOL from Pro and reading from R.
+
+Be part of your organizations data pipeline without having to figure out data transfer from your portal to ingest it into R.
+
+Illustrate `publish_layer()` from R and showing it in portal contents pane?
+
+- These packages are as much about providing access to ArcGIS location secrvices as they are about enabling the R community to build the tools they need. We want to make it as easy as possible for you to build your own bespoke packages, contribute to our existing ones, or help us make new ones.
+
+we want to acknowledge all of the developers who have built their own solutions to this very tough problem. For example arcpullr, esri2sf (both the original and the fork), getarc among others. Each and every one of these has been a motivation to us. 
+
+The package {FedData} had its own internal functions for accessing data and processing data. it recently moved to arcgislayers.  (got approval from author and maintainer)
+
+^ do some small exposition of FedData as an rOpenSci package. this emphasizes community collaboration between Esri and the Open Source ecosystem. through their migration they helped inform our package development 
+
+https://github.com/ropensci/FedData/issues/109
+https://github.com/R-ArcGIS/arcgislayers/issues/145
+https://github.com/R-ArcGIS/arcgisutils/issues/15
+
+
+## arcgisutils 
+
+We provide arcgisutils as a developer oriented package for those who still want to roll their own solutions or help us build new features and packages. 
+
+It provides a standardized way to authenticate with location services, fast and standardized Esri JSON handling functions, and helpers for handling type conversions.
+
+some mention of where we're going next with this. 
+
+- Call to action:
+    - for the GIS analysts in the room with colleagues who will never leave R, encourage them to connect directly to your data
+    - R data scientists: use them to create in-house R packages that simplify data access or other administrative tasks 
+    - for R developers in the house, become a contributor, the feedback and perspectives are exceptionally important in developing software that is made for you
+
+we want to hear from you. Talk to us via github discussions or email us 
+QR codes? 
