@@ -27,7 +27,7 @@ Topics to cover:
 - [ ] `{arcgisbinding}` embedded R scripts
     - this means that toolboxes using R scripts are now portable
         - you can share just the toolbox and don't have to have people copy files over to support the tool box
-
+    - demo this!! Super cool.
 
 ## Workflows to illustrate
 

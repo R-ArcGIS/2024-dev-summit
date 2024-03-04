@@ -1,11 +1,20 @@
-library(arcgis)
+\library(arcgis)
 
 # Store Feature Service URL
 furl <- "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Major_Cities_/FeatureServer/0"
 
+# open web page
+browseURL(furl)
+
 # Create a FeatureLayer object
 cities_fl <- arc_open(furl)
-cities_fl # view
+
+# view
+cities_fl
+
+# view all fields
+list_fields(cities_fl) |>
+  tibble::as_tibble()
 
 # Read from the FeatureLayer
 pops <- arc_select(
@@ -16,23 +25,38 @@ pops <- arc_select(
 # preview it
 pops
 
-# Plot the geometry
-plot(sf::st_geometry(pops))
-
-# authorize to portal w/ named user
-token <- auth_user()
+# authorize to portal
+token <- auth_code()
 set_arc_token(token)
-token # view token
+
+# view token
+token
 
 # publish item to private portal
-# published <- publish_layer(pops, "USA City Pop")
+published <- publish_layer(pops, ids::adjective_animal())
 published
 
-# get service url
-new_service_url <- published$services$encodedServiceURL
+# extract published URL
+published_url <- published$services$encodedServiceURL
+
+# open in the browser
+browseURL(
+  paste0(published_url, "?token=", token$access_token)
+)
 
 # connect to the new service
-arc_open(new_service_url)
+arc_open(published_url)
+
+# FedData -----------------------------------------------------------------
+
+suppressMessages(library(FedData))
+
+PADUS <- get_padus(
+  template = FedData::meve,
+  label = "meve"
+)
+
+PADUS
 
 
 # {arcgisutils} -----------------------------------------------------------
