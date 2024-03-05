@@ -13,3 +13,4 @@ cw <- function() {
 # shut off teams - turn off all demos
 # Can i hide my dock?
 # screen size
+# collapse all sections

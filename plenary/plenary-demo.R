@@ -10,9 +10,7 @@ cities_fl
 fields <- list_fields(cities_fl)
 dplyr::glimpse(fields)
 
-
-
-# Query Feature Service -----------------------------------------------
+# Query Feature Service ---------------------------------
 
 pops <- arc_select(
   cities_fl,
@@ -23,7 +21,7 @@ pops <- arc_select(
 
 pops
 
-# Connect to Portal ------------------------------------
+# Connect to Portal -------------------------------------
 
 # OAuth2 Code Flow
 token <- auth_code()
@@ -31,8 +29,7 @@ set_arc_token(token)
 token
 
 
-
-# Calculate population density --------------------------------------------
+# Calculate population density ---------------------------
 
 to_publish <- dplyr::mutate(
   pops,
@@ -42,8 +39,7 @@ to_publish <- dplyr::mutate(
 to_publish
 
 
-# Publish population density ----------------------------------------------
-
+# Publish population density -----------------------------
 
 
 # publish item to private portal
@@ -51,27 +47,23 @@ published <- publish_layer(
   to_publish, "Population Density"
 )
 
-# TODO pause here let it sink in
 # connect to the new service
 arc_open(
   paste0(published$services$encodedServiceURL, "/0")
 )
 
 
-# {arcgisutils} --------------------------------------------------
+# {arcgisutils} ------------------------------------------
 
-# Named User Auth
-auth_user()
+# Standardized Authorization
+auth_user()   # Named User
+auth_client() # OAuth2 Client
 
-
-# OAuth2 Client Flow
-auth_client()
-
-# Convert sf to Esri JSON
+# {sf} -> Esri JSON
 jsn <- as_esri_featureset(to_publish[1,])
 jsonify::pretty_json(jsn)
 
-# Parse Esri JSON to sf object
+# Esri JSON -> {sf}
 parse_esri_json(jsn)
 
 # rOpenSci {FedData} ------------------------------------
