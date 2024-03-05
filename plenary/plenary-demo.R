@@ -41,7 +41,6 @@ to_publish
 
 # Publish population density -----------------------------
 
-
 # publish item to private portal
 published <- publish_layer(
   to_publish, "Population Density"
