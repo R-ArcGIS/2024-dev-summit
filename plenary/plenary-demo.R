@@ -1,69 +1,90 @@
-\library(arcgis)
+library(arcgis)
 
-# Store Feature Service URL
-furl <- "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Major_Cities_/FeatureServer/0"
-
-# open web page
-browseURL(furl)
-
-# Create a FeatureLayer object
-cities_fl <- arc_open(furl)
-
-# view
+# Connect to USA Major Cities
+cities_fl <- arc_open(
+  "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Major_Cities_/FeatureServer/0"
+)
 cities_fl
 
-# view all fields
-list_fields(cities_fl) |>
-  tibble::as_tibble()
+# Explore Layer's Fields
+fields <- list_fields(cities_fl)
+dplyr::glimpse(fields)
 
-# Read from the FeatureLayer
+
+
+# Query Feature Service -----------------------------------------------
+
 pops <- arc_select(
   cities_fl,
-  fields = c("state_abbr", "name", "population", "sqmi")
+  fields = c(
+    "state_abbr", "name", "population", "sqmi"
+  )
 )
 
-# preview it
 pops
 
-# authorize to portal
+# Connect to Portal ------------------------------------
+
+# OAuth2 Code Flow
 token <- auth_code()
 set_arc_token(token)
-
-# view token
 token
 
+
+
+# Calculate population density --------------------------------------------
+
+to_publish <- dplyr::mutate(
+  pops,
+  pop_density = POPULATION / SQMI
+)
+
+to_publish
+
+
+# Publish population density ----------------------------------------------
+
+
+
 # publish item to private portal
-published <- publish_layer(pops, ids::adjective_animal())
-published
-
-# extract published URL
-published_url <- published$services$encodedServiceURL
-
-# open in the browser
-browseURL(
-  paste0(published_url, "?token=", token$access_token)
+published <- publish_layer(
+  to_publish, "Population Density"
 )
 
+# TODO pause here let it sink in
 # connect to the new service
-arc_open(published_url)
-
-# FedData -----------------------------------------------------------------
-
-suppressMessages(library(FedData))
-
-PADUS <- get_padus(
-  template = FedData::meve,
-  label = "meve"
+arc_open(
+  paste0(published$services$encodedServiceURL, "/0")
 )
 
-PADUS
+
+# {arcgisutils} --------------------------------------------------
+
+# Named User Auth
+auth_user()
 
 
-# {arcgisutils} -----------------------------------------------------------
-# OAuth2 Code Flow
-auth_code()
+# OAuth2 Client Flow
+auth_client()
 
-# Convert sf point to Esri JSON
-pnt <- sf::st_point(c(3, 0.14, 0.00159))
-jsn <- as_esri_geometry(pnt)
+# Convert sf to Esri JSON
+jsn <- as_esri_featureset(to_publish[1,])
 jsonify::pretty_json(jsn)
+
+# Parse Esri JSON to sf object
+parse_esri_json(jsn)
+
+# rOpenSci {FedData} ------------------------------------
+
+# USGS Protected Areas 
+PADUS <- FedData::get_padus(
+  template = FedData::meve,
+  label = "meve",
+  extraction.dir = "output"
+)
+
+dplyr::glimpse(PADUS$Manager_Name)
+
+
+
+
