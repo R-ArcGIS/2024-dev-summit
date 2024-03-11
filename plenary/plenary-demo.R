@@ -6,7 +6,8 @@ cities_fl <- arc_open(
 )
 cities_fl
 
-# Explore Layer's Fields
+# Explore Fields ----------------------------------------------------------
+
 fields <- list_fields(cities_fl)
 dplyr::glimpse(fields)
 
@@ -28,7 +29,6 @@ token <- auth_code()
 set_arc_token(token)
 token
 
-
 # Calculate population density ---------------------------
 
 to_publish <- dplyr::mutate(
@@ -45,6 +45,8 @@ to_publish
 published <- publish_layer(
   to_publish, "Population Density"
 )
+
+published
 
 # connect to the new service
 arc_open(
