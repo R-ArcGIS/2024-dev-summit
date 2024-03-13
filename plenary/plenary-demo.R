@@ -4,9 +4,10 @@ library(arcgis)
 cities_fl <- arc_open(
   "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Major_Cities_/FeatureServer/0"
 )
+
 cities_fl
 
-# Explore Fields ----------------------------------------------------------
+# Explore Fields ----------------------------------------
 
 fields <- list_fields(cities_fl)
 dplyr::glimpse(fields)
@@ -52,7 +53,6 @@ published
 arc_open(
   paste0(published$services$encodedServiceURL, "/0")
 )
-
 
 # {arcgisutils} ------------------------------------------
 
