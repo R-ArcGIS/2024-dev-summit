@@ -14,6 +14,7 @@ This repository contains resources used for R-ArcGIS Bridge related presentation
 
 > Python and R are crucial in data science and provide powerful functionality that expands the capabilities of ArcGIS. This technical session will teach you how to integrate both open-source statistical packages with ArcGIS tools for spatial data science workflows. See how to take the guesswork out of transferring data between ArcGIS and the Python and R environments. The session will expect some knowledge of data manipulation in Python and R, as well as familiarity with running ArcPy geoprocessing tools.
 
+
 ## Contact Us
 
 Please email us at `r_bridge at esri dot com` or [start a discussion post](https://github.com/R-ArcGIS/arcgislayers/discussions).
