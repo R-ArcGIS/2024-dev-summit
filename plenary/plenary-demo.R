@@ -4,9 +4,11 @@ library(arcgis)
 cities_fl <- arc_open(
   "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Major_Cities_/FeatureServer/0"
 )
+
 cities_fl
 
-# Explore Layer's Fields
+# Explore FeatureLayer ----------------------------------------------------
+
 fields <- list_fields(cities_fl)
 dplyr::glimpse(fields)
 
@@ -28,7 +30,6 @@ token <- auth_code()
 set_arc_token(token)
 token
 
-
 # Calculate population density ---------------------------
 
 to_publish <- dplyr::mutate(
@@ -45,6 +46,8 @@ to_publish
 published <- publish_layer(
   to_publish, "Population Density"
 )
+
+published
 
 # connect to the new service
 arc_open(
@@ -67,7 +70,7 @@ parse_esri_json(jsn)
 
 # rOpenSci {FedData} ------------------------------------
 
-# USGS Protected Areas 
+# USGS Protected Areas
 PADUS <- FedData::get_padus(
   template = FedData::meve,
   label = "meve",
