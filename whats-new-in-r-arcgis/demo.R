@@ -49,11 +49,34 @@ set_arc_token(
   user = user_tkn
 )
 
+# Use a specific token
+flayer <- arc_open(furl, token = arc_token("user"))
+flayer
 
-# Use a specifc token
-arc_open(furl, token = arc_token("user"))
+# Adding Features ---------------------------------------------------------
+
+library(sf)
+
+to_add <- sf::read_sf("whats-new-in-r-arcgis/data/missing-zip-codes.shp")
+
+add_results <- add_features(flayer, to_add)
 
 
 # Publishing --------------------------------------------------------------
+
+# We take the sf object and publish it
+publish_layer(to_add, "Missing Zip Code Points")
+
+
+# Community ---------------------------------------------------------------
+
+# GitHub discussions: https://github.com/R-ArcGIS/arcgislayers/discussions
+# Report site/doc issues: https://r.esri.com/r-bridge-site
+# Contribute: https://github.com/R-ArcGIS/arcgislayers/graphs/contributors
+
+
+# Geoprocessing Tools -----------------------------------------------------
+
+# https://r.esri.com/r-bridge-site/geoprocessing-tools.html#overview
 
 
